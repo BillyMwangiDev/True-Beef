@@ -34,6 +34,8 @@ def create_animal(body: AnimalCreate, db: Session = Depends(get_db)) -> Animal:
         sire_id=body.sire_id,
         dam_id=body.dam_id,
         muzzle_ref=body.muzzle_ref,
+        us_born=body.us_born,
+        us_raised=body.us_raised,
     )
     db.refresh(animal)
     return animal

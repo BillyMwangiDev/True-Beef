@@ -58,6 +58,8 @@ def create_animal(
     sire_id: uuid.UUID | None = None,
     dam_id: uuid.UUID | None = None,
     muzzle_ref: str | None = None,
+    us_born: bool = True,
+    us_raised: bool = True,
 ) -> Animal:
     animal = Animal(
         breed=breed,
@@ -67,6 +69,8 @@ def create_animal(
         sire_id=sire_id,
         dam_id=dam_id,
         muzzle_ref=muzzle_ref,
+        us_born=us_born,
+        us_raised=us_raised,
     )
     db.add(animal)
     db.commit()
