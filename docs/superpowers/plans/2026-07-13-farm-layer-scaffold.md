@@ -669,6 +669,8 @@ def create_animal(
     sire_id: uuid.UUID | None = None,
     dam_id: uuid.UUID | None = None,
     muzzle_ref: str | None = None,
+    us_born: bool = True,
+    us_raised: bool = True,
 ) -> Animal:
     animal = Animal(
         breed=breed,
@@ -678,6 +680,8 @@ def create_animal(
         sire_id=sire_id,
         dam_id=dam_id,
         muzzle_ref=muzzle_ref,
+        us_born=us_born,
+        us_raised=us_raised,
     )
     db.add(animal)
     db.commit()
@@ -898,6 +902,8 @@ def create_animal(body: AnimalCreate, db: Session = Depends(get_db)) -> Animal:
         sire_id=body.sire_id,
         dam_id=body.dam_id,
         muzzle_ref=body.muzzle_ref,
+        us_born=body.us_born,
+        us_raised=body.us_raised,
     )
     db.refresh(animal)
     return animal
