@@ -508,8 +508,8 @@ from sqlalchemy.orm import sessionmaker
 
 from app.config import settings
 from app.db import Base, get_db
+import app.models  # noqa: F401 — register tables (import BEFORE app.main so `app` binds to the FastAPI instance, not the package)
 from app.main import app
-import app.models  # noqa: F401 — register tables
 
 test_engine = create_engine(settings.test_database_url, future=True)
 TestSession = sessionmaker(bind=test_engine, autoflush=False, future=True)
