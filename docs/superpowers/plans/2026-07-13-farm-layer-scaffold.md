@@ -263,6 +263,7 @@ class LedgerEvent(Base):
 ```ini
 [alembic]
 script_location = alembic
+prepend_sys_path = .
 sqlalchemy.url =
 
 [loggers]
