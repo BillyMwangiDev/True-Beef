@@ -684,7 +684,7 @@ def create_animal(
         us_raised=us_raised,
     )
     db.add(animal)
-    db.commit()
+    db.flush()  # flush (not commit) so the animal + genesis event persist in ONE atomic commit
     db.refresh(animal)
     append_event(
         db,
@@ -701,8 +701,11 @@ def create_animal(
 
 
 def verify_chain(db: Session, animal_id: uuid.UUID) -> bool:
+    chain = get_chain(db, animal_id)
+    if not chain:
+        return False  # no events => no valid provenance (covers a fully-truncated/empty chain)
     expected_prev = GENESIS_HASH
-    for event in get_chain(db, animal_id):
+    for event in chain:
         if event.prev_hash != expected_prev:
             return False
         recomputed = compute_hash(
