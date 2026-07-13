@@ -8,3 +8,4 @@ node_modules/
 .venv/
 api/.venv/
 docker-compose.override.yml
+mobile/openapi.json
