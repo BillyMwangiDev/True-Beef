@@ -1,7 +1,7 @@
 import uuid
 from datetime import date, datetime
 
-from sqlalchemy import Boolean, Date, DateTime, ForeignKey, Integer, String, UniqueConstraint, func
+from sqlalchemy import Boolean, Date, DateTime, ForeignKey, Integer, String, UniqueConstraint, func, true
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -18,8 +18,8 @@ class Animal(Base):
     birth_date: Mapped[date] = mapped_column(Date, nullable=False)
     sire_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), ForeignKey("animals.id"), nullable=True)
     dam_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), ForeignKey("animals.id"), nullable=True)
-    us_born: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
-    us_raised: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    us_born: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default=true())
+    us_raised: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default=true())
     muzzle_ref: Mapped[str | None] = mapped_column(String, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 

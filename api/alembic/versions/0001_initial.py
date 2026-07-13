@@ -27,7 +27,7 @@ def upgrade() -> None:
         sa.Column("us_born", sa.Boolean(), nullable=False, server_default=sa.true()),
         sa.Column("us_raised", sa.Boolean(), nullable=False, server_default=sa.true()),
         sa.Column("muzzle_ref", sa.String(), nullable=True),
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now()),
+        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
     )
     op.create_table(
         "ledger_events",
@@ -40,7 +40,7 @@ def upgrade() -> None:
         sa.Column("hash", sa.String(), nullable=False),
         sa.Column("signature", sa.String(), nullable=True),
         sa.Column("signer_id", sa.String(), nullable=True),
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now()),
+        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
         sa.UniqueConstraint("animal_id", "seq", name="uq_ledger_animal_seq"),
     )
     op.execute(
