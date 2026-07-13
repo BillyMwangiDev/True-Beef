@@ -2,13 +2,20 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Status: pre-code
+## Status / Dev
 
-There is no source code, build tooling, or tests in this repo yet. The only artifact is
-`True_Beef_Research_and_PRD.docx` (the repo copy is empty; the populated 21 KB original lives
-in `~/Downloads/`). Everything below is distilled from that PRD so future work can start
-aligned with the product intent. **Update this file with real build/test/run commands the
-moment actual code lands** — do not carry the "pre-code" framing longer than it's true.
+The farm-layer scaffold is live (Expo/React Native app + FastAPI/Postgres API with a
+certification-agnostic, append-only, hash-chained animal ledger). See `README.md` for setup.
+
+Dev commands (from repo root):
+- `make up` — start Postgres (docker-compose)
+- `make migrate` — apply Alembic migrations
+- `make api` — run the FastAPI dev server (http://localhost:8000/docs)
+- `make test` — run the API test suite (pytest)
+- `make gen-client` — regenerate the mobile TS client from the API's OpenAPI
+- `make mobile` — start the Expo app
+
+Design/plan docs: `docs/superpowers/specs/` and `docs/superpowers/plans/`.
 
 ## What True Beef is
 
