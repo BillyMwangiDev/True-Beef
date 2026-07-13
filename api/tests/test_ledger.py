@@ -1,3 +1,4 @@
+import uuid
 from datetime import date
 
 from app import ledger
@@ -33,3 +34,8 @@ def test_verify_chain_valid(db):
     ledger.append_event(db, animal.id, "DIET_LOGGED", {"feed": "grass"})
     ledger.append_event(db, animal.id, "WEIGHT_RECORDED", {"kg": 320})
     assert ledger.verify_chain(db, animal.id) is True
+
+
+def test_verify_chain_empty_is_false(db):
+    # an animal id with no ledger events (e.g. fully truncated) must not verify as valid
+    assert ledger.verify_chain(db, uuid.uuid4()) is False
