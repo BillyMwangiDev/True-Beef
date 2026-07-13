@@ -1,0 +1,43 @@
+name: ci
+on: [push, pull_request]
+
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: truebeef
+          POSTGRES_PASSWORD: truebeef
+          POSTGRES_DB: truebeef
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready --health-interval 10s
+          --health-timeout 5s --health-retries 5
+    env:
+      DATABASE_URL: postgresql+psycopg2://truebeef:truebeef@localhost:5432/truebeef
+      TEST_DATABASE_URL: postgresql+psycopg2://truebeef:truebeef@localhost:5432/truebeef_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: cd api && pip install -r requirements.txt
+      - name: Create test database
+        run: PGPASSWORD=truebeef psql -h localhost -U truebeef -d truebeef -c "CREATE DATABASE truebeef_test;"
+      - name: Run migrations
+        run: cd api && alembic upgrade head
+      - name: Test
+        run: cd api && pytest -v
+
+  mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install + typecheck + test
+        run: cd mobile && npm install && npx tsc --noEmit && npm test
